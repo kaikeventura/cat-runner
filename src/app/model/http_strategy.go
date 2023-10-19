@@ -6,8 +6,8 @@ type Strategy struct {
 }
 
 type Http struct {
-	Protocol   string
-	Server     string
+	Protocol   Protocol
+	Host       string
 	Port       int
 	HttpMethod HttpMethod
 	Timeout    int
@@ -15,6 +15,13 @@ type Http struct {
 	Parameters []KVParam
 	Body       Body
 }
+
+type Protocol string
+
+const (
+	HTTP  Protocol = "GET"
+	HTTPS Protocol = "POST"
+)
 
 type HttpMethod string
 
