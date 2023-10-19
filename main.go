@@ -1,7 +1,14 @@
 package main
 
-import "fmt"
+import (
+	"github.com/kaikeventura/cat-runner/src/configuration/server"
+)
 
 func main() {
-	fmt.Println("Hello, world.")
+	startServer()
+}
+
+func startServer() {
+	serverGin := server.NewServer()
+	serverGin.Run()
 }
