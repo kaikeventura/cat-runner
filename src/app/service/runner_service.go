@@ -4,17 +4,24 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/kaikeventura/cat-runner/src/app/client"
 	"github.com/kaikeventura/cat-runner/src/app/model"
 )
 
-type RunnerService struct{}
-
-func ConstructRunnerService() RunnerService {
-	return RunnerService{}
+type RunnerService struct {
+	httpClient client.HttpClient
 }
 
-func RunHttp(httpRunner model.HttpRunner) string {
+func ConstructRunnerService(httpClient client.HttpClient) RunnerService {
+	return RunnerService{httpClient}
+}
+
+func (service RunnerService) RunHttp(httpRunner model.HttpRunner) string {
 	url := buildUrl(httpRunner.Http)
+
+	resp := service.httpClient.Post(url, httpRunner.Http.Headers, nil)
+
+	print(resp)
 
 	return url
 }

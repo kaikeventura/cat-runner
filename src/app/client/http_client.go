@@ -13,7 +13,7 @@ func ConstructHttpClient() HttpClient {
 	return HttpClient{}
 }
 
-func Post(url string, headers []model.KVParam, body string) *http.Response {
+func (httpClient HttpClient) Post(url string, headers []model.KVParam, body *string) *http.Response {
 	request, err := http.NewRequest("POST", url, nil)
 	if err != nil {
 		fmt.Println("Error creating the request:", err)
