@@ -1,6 +1,6 @@
 package model
 
-type Strategy struct {
+type HttpRunner struct {
 	Http        Http
 	VirtualUser VirtualUser
 }
@@ -19,8 +19,8 @@ type Http struct {
 type Protocol string
 
 const (
-	HTTP  Protocol = "GET"
-	HTTPS Protocol = "POST"
+	HTTP  Protocol = "HTTP"
+	HTTPS Protocol = "HTTPS"
 )
 
 type HttpMethod string
