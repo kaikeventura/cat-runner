@@ -21,4 +21,6 @@
 go.work
 
 # Vscode
-.vscode
+.vscode/
+.code-workspace
+.settings.json
