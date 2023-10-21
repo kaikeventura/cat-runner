@@ -9,6 +9,7 @@ type Http struct {
 	Protocol   Protocol
 	Host       string
 	Port       int
+	Path       string
 	HttpMethod HttpMethod
 	Timeout    int
 	Headers    []KVParam

@@ -3,7 +3,14 @@ package controller
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/kaikeventura/cat-runner/src/app/model"
+	"github.com/kaikeventura/cat-runner/src/app/service"
 )
+
+var runnerService service.RunnerService
+
+func ConstructRunnerController(service service.RunnerService) {
+	runnerService = service
+}
 
 func RunHttp(context *gin.Context) {
 	var runner model.HttpRunner
@@ -18,5 +25,5 @@ func RunHttp(context *gin.Context) {
 		return
 	}
 
-	context.JSON(201, runner)
+	context.JSON(201, runnerService.RunHttp(runner))
 }
