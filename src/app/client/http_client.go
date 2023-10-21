@@ -3,6 +3,8 @@ package client
 import (
 	"fmt"
 	"net/http"
+	"strings"
+	"time"
 
 	"github.com/kaikeventura/cat-runner/src/app/model"
 )
@@ -13,11 +15,12 @@ func ConstructHttpClient() HttpClient {
 	return HttpClient{}
 }
 
-func (httpClient HttpClient) Post(url string, headers []model.KVParam, body *string) *http.Response {
-	request, err := http.NewRequest("POST", url, nil)
+func (httpClient HttpClient) Post(url string, headers []model.KVParam, body string) (*http.Response, int, error) {
+	requestBody := strings.NewReader(body)
+	request, err := http.NewRequest("POST", url, requestBody)
 	if err != nil {
 		fmt.Println("Error creating the request:", err)
-		return nil
+		return nil, 0, err
 	}
 
 	if len(headers) > 0 {
@@ -28,12 +31,14 @@ func (httpClient HttpClient) Post(url string, headers []model.KVParam, body *str
 
 	client := &http.Client{}
 
+	startTime := time.Now()
 	resp, err := client.Do(request)
+	endTime := time.Now()
+
 	if err != nil {
 		fmt.Println("Error sending the request:", err)
-		return nil
+		return nil, 0, err
 	}
-	defer resp.Body.Close()
 
-	return resp
+	return resp, int(endTime.Sub(startTime).Milliseconds()), nil
 }
