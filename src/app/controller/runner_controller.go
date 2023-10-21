@@ -25,5 +25,5 @@ func RunHttp(context *gin.Context) {
 		return
 	}
 
-	context.JSON(201, runnerService.RunHttp(runner))
+	context.JSON(201, runnerService.Run(runner))
 }
