@@ -27,7 +27,7 @@ var handler = map[model.HttpMethod]func(url string, headers []model.KVParam, bod
 func (httpClient HttpClient) MakeRequest(method model.HttpMethod, url string, headers []model.KVParam, body *string) (*http.Response, int, error) {
 	handler, exists := handler[method]
 	if exists {
-		handler(url, headers, body)
+		return handler(url, headers, body)
 	} else {
 		fmt.Println("Http method no mapped")
 	}
@@ -35,7 +35,32 @@ func (httpClient HttpClient) MakeRequest(method model.HttpMethod, url string, he
 }
 
 func (httpClient HttpClient) get(url string, headers []model.KVParam, body *string) (*http.Response, int, error) {
-	return nil, 0, nil
+	requester, err := buildRequester("GET", url, body)
+	if err != nil {
+		fmt.Println("Error creating the request:", err)
+		return nil, 0, err
+	}
+
+	if len(headers) > 0 {
+		for _, header := range headers {
+			requester.Header.Set(header.Key, header.Value)
+		}
+	}
+
+	client := &http.Client{}
+
+	startTime := time.Now()
+	resp, err := client.Do(requester)
+	endTime := time.Now()
+
+	if err != nil {
+		fmt.Println("Error sending the request:", err)
+		return nil, 0, err
+	}
+
+	time := int(endTime.Sub(startTime).Milliseconds())
+
+	return resp, time, nil
 }
 
 func (httpClient HttpClient) post(url string, headers []model.KVParam, body *string) (*http.Response, int, error) {
@@ -62,19 +87,96 @@ func (httpClient HttpClient) post(url string, headers []model.KVParam, body *str
 		return nil, 0, err
 	}
 
-	return resp, int(endTime.Sub(startTime).Milliseconds()), nil
+	time := int(endTime.Sub(startTime).Milliseconds())
+
+	return resp, time, nil
 }
 
 func (httpClient HttpClient) put(url string, headers []model.KVParam, body *string) (*http.Response, int, error) {
-	return nil, 0, nil
+	requester, err := buildRequester("PUT", url, body)
+	if err != nil {
+		fmt.Println("Error creating the request:", err)
+		return nil, 0, err
+	}
+
+	if len(headers) > 0 {
+		for _, header := range headers {
+			requester.Header.Set(header.Key, header.Value)
+		}
+	}
+
+	client := &http.Client{}
+
+	startTime := time.Now()
+	resp, err := client.Do(requester)
+	endTime := time.Now()
+
+	if err != nil {
+		fmt.Println("Error sending the request:", err)
+		return nil, 0, err
+	}
+
+	time := int(endTime.Sub(startTime).Milliseconds())
+
+	return resp, time, nil
 }
 
 func (httpClient HttpClient) patch(url string, headers []model.KVParam, body *string) (*http.Response, int, error) {
-	return nil, 0, nil
+	requester, err := buildRequester("PATCH", url, body)
+	if err != nil {
+		fmt.Println("Error creating the request:", err)
+		return nil, 0, err
+	}
+
+	if len(headers) > 0 {
+		for _, header := range headers {
+			requester.Header.Set(header.Key, header.Value)
+		}
+	}
+
+	client := &http.Client{}
+
+	startTime := time.Now()
+	resp, err := client.Do(requester)
+	endTime := time.Now()
+
+	if err != nil {
+		fmt.Println("Error sending the request:", err)
+		return nil, 0, err
+	}
+
+	time := int(endTime.Sub(startTime).Milliseconds())
+
+	return resp, time, nil
 }
 
 func (httpClient HttpClient) delete(url string, headers []model.KVParam, body *string) (*http.Response, int, error) {
-	return nil, 0, nil
+	requester, err := buildRequester("DELETE", url, body)
+	if err != nil {
+		fmt.Println("Error creating the request:", err)
+		return nil, 0, err
+	}
+
+	if len(headers) > 0 {
+		for _, header := range headers {
+			requester.Header.Set(header.Key, header.Value)
+		}
+	}
+
+	client := &http.Client{}
+
+	startTime := time.Now()
+	resp, err := client.Do(requester)
+	endTime := time.Now()
+
+	if err != nil {
+		fmt.Println("Error sending the request:", err)
+		return nil, 0, err
+	}
+
+	time := int(endTime.Sub(startTime).Milliseconds())
+
+	return resp, time, nil
 }
 
 func buildRequester(methoid string, url string, body *string) (*http.Request, error) {
