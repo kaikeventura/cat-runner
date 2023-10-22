@@ -29,8 +29,8 @@ type HttpMethod string
 const (
 	GET    HttpMethod = "GET"
 	POST   HttpMethod = "POST"
-	PATCH  HttpMethod = "PATCH"
 	PUT    HttpMethod = "PUT"
+	PATCH  HttpMethod = "PATCH"
 	DELETE HttpMethod = "DELETE"
 )
 
