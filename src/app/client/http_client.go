@@ -2,6 +2,7 @@ package client
 
 import (
 	"fmt"
+	"io"
 	"net/http"
 	"strings"
 	"time"
@@ -15,9 +16,30 @@ func ConstructHttpClient() HttpClient {
 	return HttpClient{}
 }
 
-func (httpClient HttpClient) Post(url string, headers []model.KVParam, body string) (*http.Response, int, error) {
-	requestBody := strings.NewReader(body)
-	request, err := http.NewRequest("POST", url, requestBody)
+var handler = map[model.HttpMethod]func(url string, headers []model.KVParam, body *string) (*http.Response, int, error){
+	model.GET:    ConstructHttpClient().get,
+	model.POST:   ConstructHttpClient().post,
+	model.PUT:    ConstructHttpClient().put,
+	model.PATCH:  ConstructHttpClient().patch,
+	model.DELETE: ConstructHttpClient().delete,
+}
+
+func (httpClient HttpClient) MakeRequest(method model.HttpMethod, url string, headers []model.KVParam, body *string) (*http.Response, int, error) {
+	handler, exists := handler[method]
+	if exists {
+		handler(url, headers, body)
+	} else {
+		fmt.Println("Http method no mapped")
+	}
+	return nil, 0, nil
+}
+
+func (httpClient HttpClient) get(url string, headers []model.KVParam, body *string) (*http.Response, int, error) {
+	return nil, 0, nil
+}
+
+func (httpClient HttpClient) post(url string, headers []model.KVParam, body *string) (*http.Response, int, error) {
+	requester, err := buildRequester("POST", url, body)
 	if err != nil {
 		fmt.Println("Error creating the request:", err)
 		return nil, 0, err
@@ -25,14 +47,14 @@ func (httpClient HttpClient) Post(url string, headers []model.KVParam, body stri
 
 	if len(headers) > 0 {
 		for _, header := range headers {
-			request.Header.Set(header.Key, header.Value)
+			requester.Header.Set(header.Key, header.Value)
 		}
 	}
 
 	client := &http.Client{}
 
 	startTime := time.Now()
-	resp, err := client.Do(request)
+	resp, err := client.Do(requester)
 	endTime := time.Now()
 
 	if err != nil {
@@ -41,4 +63,26 @@ func (httpClient HttpClient) Post(url string, headers []model.KVParam, body stri
 	}
 
 	return resp, int(endTime.Sub(startTime).Milliseconds()), nil
+}
+
+func (httpClient HttpClient) put(url string, headers []model.KVParam, body *string) (*http.Response, int, error) {
+	return nil, 0, nil
+}
+
+func (httpClient HttpClient) patch(url string, headers []model.KVParam, body *string) (*http.Response, int, error) {
+	return nil, 0, nil
+}
+
+func (httpClient HttpClient) delete(url string, headers []model.KVParam, body *string) (*http.Response, int, error) {
+	return nil, 0, nil
+}
+
+func buildRequester(methoid string, url string, body *string) (*http.Request, error) {
+	var requestBody io.Reader
+
+	if body != nil {
+		requestBody = strings.NewReader(*body)
+	}
+
+	return http.NewRequest(methoid, url, requestBody)
 }
