@@ -51,7 +51,7 @@ func (service RunnerService) runHttp(http model.Http, virtualUser virtualUserReq
 	for requestIdx := 1; requestIdx <= virtualUser.InteractionsAmount; requestIdx++ {
 		time.Sleep(time.Duration(virtualUser.InteractionDelay) * time.Millisecond)
 
-		resp, time, error := service.httpClient.Post(url, http.Headers, body)
+		resp, time, error := service.httpClient.MakeRequest(http.HttpMethod, url, http.Headers, &body)
 
 		if error != nil {
 			return
