@@ -16,5 +16,5 @@ func startServer() {
 }
 
 func staterContainer() {
-	container.BuildConstainer()
+	container.BuildContainer()
 }

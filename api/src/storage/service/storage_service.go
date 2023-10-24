@@ -11,7 +11,13 @@ import (
 	"github.com/kaikeventura/cat-runner/src/storage/model"
 )
 
-func CreateStrategyTestFile(StrategyTestName string) error {
+type StorageService struct{}
+
+func ConstructStorageService() StorageService {
+	return StorageService{}
+}
+
+func (StorageService) CreateStrategyTestFile(StrategyTestName string) error {
 	strategy := model.StrategyFile{
 		StrategyTestName: StrategyTestName,
 		CreatedAt:        time.Now(),
@@ -35,7 +41,7 @@ func CreateStrategyTestFile(StrategyTestName string) error {
 	return nil
 }
 
-func FindAllStrategyTests() []string {
+func (StorageService) FindAllStrategyTests() []string {
 	directoryPath := getDirectoryPath()
 	fileNames := []string{}
 
