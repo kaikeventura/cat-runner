@@ -2,6 +2,7 @@ package controller
 
 import (
 	"github.com/gin-gonic/gin"
+	runnerModel "github.com/kaikeventura/cat-runner/src/runner/model"
 	"github.com/kaikeventura/cat-runner/src/strategy/model"
 	"github.com/kaikeventura/cat-runner/src/strategy/service"
 )
@@ -50,4 +51,32 @@ func GetAllStrategies(context *gin.Context) {
 	}
 
 	context.JSON(200, strategies)
+}
+
+func AddHttpRunner(context *gin.Context) {
+	var httpRunner runnerModel.HttpRunner
+
+	err := context.ShouldBindJSON(&httpRunner)
+
+	if err != nil {
+		context.JSON(400, gin.H{
+			"error": "Cannot bind Json: " + err.Error(),
+		})
+
+		return
+	}
+
+	strategyName := context.Param("strategyName")
+
+	updatedStrategy, err := strategyService.AddHttpRunner(strategyName, httpRunner)
+
+	if err != nil {
+		context.JSON(400, gin.H{
+			"error": "Error: " + err.Error(),
+		})
+
+		return
+	}
+
+	context.JSON(200, updatedStrategy)
 }

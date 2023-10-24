@@ -1,6 +1,7 @@
 package model
 
 type HttpRunner struct {
+	RequestName string
 	Http        Http
 	VirtualUser VirtualUser
 }
