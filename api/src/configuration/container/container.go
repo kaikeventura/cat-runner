@@ -1,9 +1,9 @@
 package container
 
 import (
-	"github.com/kaikeventura/cat-runner/src/app/client"
-	"github.com/kaikeventura/cat-runner/src/app/controller"
-	"github.com/kaikeventura/cat-runner/src/app/service"
+	"github.com/kaikeventura/cat-runner/src/runner/client"
+	"github.com/kaikeventura/cat-runner/src/runner/controller"
+	"github.com/kaikeventura/cat-runner/src/runner/service"
 )
 
 func BuildConstainer() {

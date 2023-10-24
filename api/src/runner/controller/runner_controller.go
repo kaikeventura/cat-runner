@@ -2,8 +2,8 @@ package controller
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/kaikeventura/cat-runner/src/app/model"
-	"github.com/kaikeventura/cat-runner/src/app/service"
+	"github.com/kaikeventura/cat-runner/src/runner/model"
+	"github.com/kaikeventura/cat-runner/src/runner/service"
 )
 
 var runnerService service.RunnerService
