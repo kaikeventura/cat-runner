@@ -12,7 +12,7 @@ func ConstructStrategyService(service service.StrategyService) {
 	strategyService = service
 }
 
-func CreateStrategyTest(context *gin.Context) {
+func CreateStrategy(context *gin.Context) {
 	var strategy model.Strategy
 
 	err := context.ShouldBindJSON(&strategy)

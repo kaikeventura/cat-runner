@@ -3,7 +3,6 @@ package routes
 import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
-	"github.com/kaikeventura/cat-runner/src/runner/controller"
 )
 
 func RouterConfiguration(router *gin.Engine) *gin.Engine {
@@ -15,10 +14,8 @@ func RouterConfiguration(router *gin.Engine) *gin.Engine {
 
 	v1 := router.Group("v1")
 	{
-		runner := v1.Group("runner")
-		{
-			runner.POST("/http", controller.RunHttp)
-		}
+		runnerRoutes(v1)
+		strategyRoutes(v1)
 	}
 
 	return router
