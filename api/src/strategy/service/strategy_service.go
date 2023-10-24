@@ -13,6 +13,20 @@ func ConstructStrategyService(storageService service.StorageService) StrategySer
 	return StrategyService{storageService}
 }
 
-func (service StrategyService) CreateStrategyTest(strategy model.Strategy) string {
-	return ""
+func (service StrategyService) CreateStrategy(strategy model.Strategy) error {
+	err := service.storageService.CreateStrategyTestFile(strategy.Name)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (service StrategyService) GetAllStrategies() ([]string, error) {
+	strategies, err := service.storageService.FindAllStrategyTests()
+	if err != nil {
+		return []string{}, err
+	}
+
+	return strategies, nil
 }
