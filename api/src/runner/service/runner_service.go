@@ -9,8 +9,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/kaikeventura/cat-runner/src/app/client"
-	"github.com/kaikeventura/cat-runner/src/app/model"
+	"github.com/kaikeventura/cat-runner/src/runner/client"
+	"github.com/kaikeventura/cat-runner/src/runner/model"
 )
 
 type RunnerService struct {

@@ -7,7 +7,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/kaikeventura/cat-runner/src/app/model"
+	"github.com/kaikeventura/cat-runner/src/runner/model"
 )
 
 type HttpClient struct{}

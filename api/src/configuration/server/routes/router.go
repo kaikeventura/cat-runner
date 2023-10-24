@@ -3,7 +3,7 @@ package routes
 import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
-	"github.com/kaikeventura/cat-runner/src/app/controller"
+	"github.com/kaikeventura/cat-runner/src/runner/controller"
 )
 
 func RouterConfiguration(router *gin.Engine) *gin.Engine {
