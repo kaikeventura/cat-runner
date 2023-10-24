@@ -8,6 +8,7 @@ import (
 	"strings"
 	"time"
 
+	runnerModel "github.com/kaikeventura/cat-runner/src/runner/model"
 	"github.com/kaikeventura/cat-runner/src/storage/model"
 )
 
@@ -19,9 +20,9 @@ func ConstructStorageService() StorageService {
 
 func (StorageService) CreateStrategyTestFile(strategyTestName string) error {
 	strategy := model.StrategyFile{
-		StrategyTestName: strategyTestName,
-		CreatedAt:        time.Now(),
-		RequestRunners:   &[]string{},
+		StrategyTestName:   strategyTestName,
+		CreatedAt:          time.Now(),
+		HttpRequestRunners: []runnerModel.HttpRunner{},
 	}
 
 	directoryPath := getDirectoryPath()
@@ -36,6 +37,7 @@ func (StorageService) CreateStrategyTestFile(strategyTestName string) error {
 	encoder := json.NewEncoder(file)
 	if err := encoder.Encode(strategy); err != nil {
 		fmt.Println("Error when trying write file:", err)
+		return err
 	}
 
 	return nil
@@ -59,6 +61,59 @@ func (StorageService) FindAllStrategyTests() ([]string, error) {
 	}
 
 	return fileNames, nil
+}
+
+func (StorageService) FindStrategyByName(strategyTestName string) (*model.StrategyFile, error) {
+	directoryPath := getDirectoryPath()
+	filePath := filepath.Join(directoryPath, strategyTestName+".json")
+
+	file, err := os.ReadFile(filePath)
+	if err != nil {
+		fmt.Println("Error when trying read file:", err)
+		return nil, err
+	}
+
+	var strategyFile = model.StrategyFile{}
+
+	if err := json.Unmarshal(file, &strategyFile); err != nil {
+		fmt.Println("Json parser error:", err)
+		return nil, err
+	}
+
+	return &strategyFile, nil
+}
+
+func (StorageService) UpdateStrategyTestFile(strategyTestName string, updatedStrategyFile model.StrategyFile) error {
+	directoryPath := getDirectoryPath()
+	filePath := filepath.Join(directoryPath, strategyTestName+".json")
+
+	_, err := os.ReadFile(filePath)
+	if err != nil {
+		fmt.Println("Error when trying read file:", err)
+		return err
+	}
+
+	jsonData, err := json.Marshal(updatedStrategyFile)
+	if err != nil {
+		fmt.Println("JSON parser error:", err)
+		return err
+	}
+
+	err = os.WriteFile(filePath, []byte(jsonData), 0644)
+	if err != nil {
+		fmt.Println("Error when trying write file with updated data:", err)
+		return err
+	}
+
+	if strategyTestName != updatedStrategyFile.StrategyTestName {
+		err = os.Rename(filePath, updatedStrategyFile.StrategyTestName)
+		if err != nil {
+			fmt.Println("Error when trying rename file:", err)
+			return err
+		}
+	}
+
+	return nil
 }
 
 func getDirectoryPath() string {
