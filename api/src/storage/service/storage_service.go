@@ -17,15 +17,15 @@ func ConstructStorageService() StorageService {
 	return StorageService{}
 }
 
-func (StorageService) CreateStrategyTestFile(StrategyTestName string) error {
+func (StorageService) CreateStrategyTestFile(strategyTestName string) error {
 	strategy := model.StrategyFile{
-		StrategyTestName: StrategyTestName,
+		StrategyTestName: strategyTestName,
 		CreatedAt:        time.Now(),
 		RequestRunners:   &[]string{},
 	}
 
 	directoryPath := getDirectoryPath()
-	filePath := filepath.Join(directoryPath, StrategyTestName+".json")
+	filePath := filepath.Join(directoryPath, strategyTestName+".json")
 	file, err := os.Create(filePath)
 	if err != nil {
 		fmt.Println("Error when trying create file", err)
@@ -41,14 +41,14 @@ func (StorageService) CreateStrategyTestFile(StrategyTestName string) error {
 	return nil
 }
 
-func (StorageService) FindAllStrategyTests() []string {
+func (StorageService) FindAllStrategyTests() ([]string, error) {
 	directoryPath := getDirectoryPath()
 	fileNames := []string{}
 
 	files, err := os.ReadDir(directoryPath)
 	if err != nil {
 		fmt.Println("Error when trying open directory:", err)
-		return nil
+		return []string{}, err
 	}
 
 	for _, file := range files {
@@ -58,7 +58,7 @@ func (StorageService) FindAllStrategyTests() []string {
 		}
 	}
 
-	return fileNames
+	return fileNames, nil
 }
 
 func getDirectoryPath() string {

@@ -25,5 +25,29 @@ func CreateStrategy(context *gin.Context) {
 		return
 	}
 
-	context.JSON(201, strategyService.CreateStrategyTest(strategy))
+	err = strategyService.CreateStrategy(strategy)
+
+	if err != nil {
+		context.JSON(400, gin.H{
+			"error": "Error: " + err.Error(),
+		})
+
+		return
+	}
+
+	context.Status(201)
+}
+
+func GetAllStrategies(context *gin.Context) {
+	strategies, err := strategyService.GetAllStrategies()
+
+	if err != nil {
+		context.JSON(400, gin.H{
+			"error": "Error: " + err.Error(),
+		})
+
+		return
+	}
+
+	context.JSON(200, strategies)
 }
