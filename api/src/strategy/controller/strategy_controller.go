@@ -78,5 +78,61 @@ func AddHttpRunner(context *gin.Context) {
 		return
 	}
 
+	context.JSON(201, updatedStrategy)
+}
+
+func AddEnvironmentVariable(context *gin.Context) {
+	var environmentVariable model.EnvironmentVariable
+
+	err := context.ShouldBindJSON(&environmentVariable)
+
+	if err != nil {
+		context.JSON(400, gin.H{
+			"error": "Cannot bind Json: " + err.Error(),
+		})
+
+		return
+	}
+
+	strategyName := context.Param("strategyName")
+
+	updatedStrategy, err := strategyService.AddEnvironmentVariable(strategyName, environmentVariable)
+
+	if err != nil {
+		context.JSON(400, gin.H{
+			"error": "Error: " + err.Error(),
+		})
+
+		return
+	}
+
+	context.JSON(201, updatedStrategy)
+}
+
+func UpdateEnvironmentVariable(context *gin.Context) {
+	var environmentVariable model.EnvironmentVariable
+
+	err := context.ShouldBindJSON(&environmentVariable)
+
+	if err != nil {
+		context.JSON(400, gin.H{
+			"error": "Cannot bind Json: " + err.Error(),
+		})
+
+		return
+	}
+
+	strategyName := context.Param("strategyName")
+
+	updatedStrategy, err := strategyService.UpdateEnvironmentVariable(strategyName, environmentVariable)
+
+	if err != nil {
+		context.JSON(400, gin.H{
+			"error": "Error: " + err.Error(),
+		})
+
+		return
+	}
+
 	context.JSON(200, updatedStrategy)
 }

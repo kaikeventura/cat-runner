@@ -1,12 +1,13 @@
 package service
 
 import (
+	"fmt"
 	"time"
 
 	runnerModel "github.com/kaikeventura/cat-runner/src/runner/model"
-	"github.com/kaikeventura/cat-runner/src/storage/model"
+	storageModel "github.com/kaikeventura/cat-runner/src/storage/model"
 	"github.com/kaikeventura/cat-runner/src/storage/service"
-	strategyModel "github.com/kaikeventura/cat-runner/src/strategy/model"
+	"github.com/kaikeventura/cat-runner/src/strategy/model"
 )
 
 type StrategyService struct {
@@ -17,7 +18,7 @@ func ConstructStrategyService(storageService service.StorageService) StrategySer
 	return StrategyService{storageService}
 }
 
-func (service StrategyService) CreateStrategy(strategy strategyModel.Strategy) error {
+func (service StrategyService) CreateStrategy(strategy model.Strategy) error {
 	err := service.storageService.CreateStrategyTestFile(strategy.Name)
 	if err != nil {
 		return err
@@ -35,7 +36,7 @@ func (service StrategyService) GetAllStrategies() ([]string, error) {
 	return strategies, nil
 }
 
-func (service StrategyService) AddHttpRunner(strategyTestName string, httpRunner runnerModel.HttpRunner) (*model.StrategyFile, error) {
+func (service StrategyService) AddHttpRunner(strategyTestName string, httpRunner runnerModel.HttpRunner) (*storageModel.StrategyFile, error) {
 	strategy, err := service.storageService.FindStrategyByName(strategyTestName)
 
 	if err != nil {
@@ -54,4 +55,48 @@ func (service StrategyService) AddHttpRunner(strategyTestName string, httpRunner
 	service.storageService.UpdateStrategyTestFile(strategyTestName, *strategy)
 
 	return strategy, nil
+}
+
+func (service StrategyService) AddEnvironmentVariable(strategyTestName string, environmentVariable model.EnvironmentVariable) (*storageModel.StrategyFile, error) {
+	strategy, err := service.storageService.FindStrategyByName(strategyTestName)
+
+	if err != nil {
+		return nil, err
+	}
+
+	modifiedAt := time.Now()
+	strategy.ModifiedAt = &modifiedAt
+
+	for _, element := range strategy.EnvironmentVariables {
+		if element.Name == environmentVariable.Name {
+			return nil, fmt.Errorf("variable %s already exists", environmentVariable.Name)
+		}
+	}
+
+	strategy.EnvironmentVariables = append(strategy.EnvironmentVariables, environmentVariable)
+
+	service.storageService.UpdateStrategyTestFile(strategyTestName, *strategy)
+
+	return strategy, nil
+}
+
+func (service StrategyService) UpdateEnvironmentVariable(strategyTestName string, environmentVariable model.EnvironmentVariable) (*storageModel.StrategyFile, error) {
+	strategy, err := service.storageService.FindStrategyByName(strategyTestName)
+
+	if err != nil {
+		return nil, err
+	}
+
+	modifiedAt := time.Now()
+	strategy.ModifiedAt = &modifiedAt
+
+	for index, element := range strategy.EnvironmentVariables {
+		if element.Name == environmentVariable.Name {
+			strategy.EnvironmentVariables[index] = environmentVariable
+			service.storageService.UpdateStrategyTestFile(strategyTestName, *strategy)
+			return strategy, nil
+		}
+	}
+
+	return nil, fmt.Errorf("variable %s not found", environmentVariable.Name)
 }
