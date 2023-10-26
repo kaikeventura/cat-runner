@@ -24,37 +24,42 @@ func ConstructRunnerService(httpClient client.HttpClient) RunnerService {
 var allResponses = []model.Response{}
 
 func (service RunnerService) Run(httpRunner model.HttpRunner) []model.Response {
+	semaphore := make(chan struct{}, 10)
 	var wg sync.WaitGroup
 	virtualUser := httpRunner.VirtualUser
+	allResponses = make([]model.Response, 0, virtualUser.UsersAmount*virtualUser.InteractionsAmount)
 
 	for user := 1; user <= virtualUser.UsersAmount; user++ {
 		wg.Add(1)
-		userRequester := virtualUserRequester{
-			UserId:             user,
-			InteractionsAmount: virtualUser.InteractionsAmount,
-			InteractionDelay:   virtualUser.InteractionDelay,
-		}
-		go service.runHttp(httpRunner.Http, userRequester, &wg)
+		go func(user int) {
+			defer wg.Done()
+			semaphore <- struct{}{}
+			defer func() { <-semaphore }()
+			userRequester := virtualUserRequester{
+				UserId:             user,
+				InteractionsAmount: virtualUser.InteractionsAmount,
+				InteractionDelay:   virtualUser.InteractionDelay,
+			}
+			service.runHttp(httpRunner.Http, userRequester, &wg)
+		}(user)
 	}
 
 	wg.Wait()
 
-	return allResponses
+	return []model.Response{}
 }
 
 func (service RunnerService) runHttp(http model.Http, virtualUser virtualUserRequester, wg *sync.WaitGroup) {
-	defer wg.Done()
-
 	url := buildUrl(http)
 	body := http.Body.ContentText
 
 	for requestIdx := 1; requestIdx <= virtualUser.InteractionsAmount; requestIdx++ {
 		time.Sleep(time.Duration(virtualUser.InteractionDelay) * time.Millisecond)
 
-		resp, time, error := service.httpClient.MakeRequest(http.HttpMethod, url, http.Headers, &body)
+		resp, time, err := service.httpClient.MakeRequest(http.HttpMethod, url, http.Headers, &body)
 
-		if error != nil {
-			return
+		if err != nil {
+			continue
 		}
 
 		responseStatus := model.ResponseStatus{
@@ -65,7 +70,7 @@ func (service RunnerService) runHttp(http model.Http, virtualUser virtualUserReq
 		responseBody, err := io.ReadAll(resp.Body)
 		if err != nil {
 			fmt.Println("Erro ao ler o corpo da resposta:", err)
-			return
+			continue
 		}
 
 		request := resp.Request
