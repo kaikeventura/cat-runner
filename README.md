@@ -12,7 +12,7 @@ This open-source project is designed to facilitate load testing for applications
 To get started with this project, follow these steps:
 Clone the Repository: Clone this repository to your local machine.
 ```shell
-git clone https://github.com/your-username/load-testing-tool.git
+git clone https://github.com/kaikeventura/cat-runner.git
 ```
 
 Backend Setup: Navigate to the backend directory and set up the Golang backend.
