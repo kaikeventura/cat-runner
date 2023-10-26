@@ -53,6 +53,22 @@ func GetAllStrategies(context *gin.Context) {
 	context.JSON(200, strategies)
 }
 
+func GetStrategyByName(context *gin.Context) {
+	strategyName := context.Param("strategyName")
+
+	strategy, err := strategyService.GetStrategyByName(strategyName)
+
+	if err != nil {
+		context.JSON(400, gin.H{
+			"error": "Error: " + err.Error(),
+		})
+
+		return
+	}
+
+	context.JSON(200, strategy)
+}
+
 func AddHttpRunner(context *gin.Context) {
 	var httpRunner runnerModel.HttpRunner
 
