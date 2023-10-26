@@ -24,6 +24,7 @@ func RouterConfiguration(router *gin.Engine) *gin.Engine {
 		{
 			strategy.POST("/", strategyController.CreateStrategy)
 			strategy.GET("/", strategyController.GetAllStrategies)
+			strategy.GET("/:strategyName", strategyController.GetStrategyByName)
 			strategy.POST("/:strategyName/http", strategyController.AddHttpRunner)
 			strategy.POST("/:strategyName/env", strategyController.AddEnvironmentVariable)
 			strategy.PUT("/:strategyName/env", strategyController.UpdateEnvironmentVariable)

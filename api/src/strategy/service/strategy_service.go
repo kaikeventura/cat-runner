@@ -36,6 +36,16 @@ func (service StrategyService) GetAllStrategies() ([]string, error) {
 	return strategies, nil
 }
 
+func (service StrategyService) GetStrategyByName(strategyTestName string) (*storageModel.StrategyFile, error) {
+	strategy, err := service.storageService.FindStrategyByName(strategyTestName)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return strategy, nil
+}
+
 func (service StrategyService) AddHttpRunner(strategyTestName string, httpRunner runnerModel.HttpRunner) (*storageModel.StrategyFile, error) {
 	strategy, err := service.storageService.FindStrategyByName(strategyTestName)
 
