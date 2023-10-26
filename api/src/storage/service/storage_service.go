@@ -10,6 +10,7 @@ import (
 
 	runnerModel "github.com/kaikeventura/cat-runner/src/runner/model"
 	"github.com/kaikeventura/cat-runner/src/storage/model"
+	strategyModel "github.com/kaikeventura/cat-runner/src/strategy/model"
 )
 
 type StorageService struct{}
@@ -20,9 +21,10 @@ func ConstructStorageService() StorageService {
 
 func (StorageService) CreateStrategyTestFile(strategyTestName string) error {
 	strategy := model.StrategyFile{
-		StrategyTestName:   strategyTestName,
-		CreatedAt:          time.Now(),
-		HttpRequestRunners: []runnerModel.HttpRunner{},
+		StrategyTestName:     strategyTestName,
+		CreatedAt:            time.Now(),
+		HttpRequestRunners:   []runnerModel.HttpRunner{},
+		EnvironmentVariables: []strategyModel.EnvironmentVariable{},
 	}
 
 	directoryPath := getDirectoryPath()
