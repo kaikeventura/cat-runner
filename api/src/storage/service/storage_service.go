@@ -45,24 +45,35 @@ func (StorageService) CreateStrategyTestFile(strategyTestName string) error {
 	return nil
 }
 
-func (StorageService) FindAllStrategyTests() ([]string, error) {
+func (StorageService) FindAllStrategyTests() ([]model.StrategyFile, error) {
 	directoryPath := getDirectoryPath()
-	fileNames := []string{}
+	strategies := []model.StrategyFile{}
 
 	files, err := os.ReadDir(directoryPath)
 	if err != nil {
 		fmt.Println("Error when trying open directory:", err)
-		return []string{}, err
+		return []model.StrategyFile{}, err
 	}
 
 	for _, file := range files {
+		readFile, err := os.ReadFile(filepath.Join(directoryPath, file.Name()))
+		if err != nil {
+			fmt.Println("Error when trying read file:", err)
+			return nil, err
+		}
+
 		if !file.IsDir() && strings.HasSuffix(file.Name(), ".json") {
-			fileName := strings.TrimSuffix(file.Name(), ".json")
-			fileNames = append(fileNames, fileName)
+			var strategy = model.StrategyFile{}
+			if err := json.Unmarshal(readFile, &strategy); err != nil {
+				fmt.Println("Json parser error:", err)
+				return nil, err
+			}
+
+			strategies = append(strategies, strategy)
 		}
 	}
 
-	return fileNames, nil
+	return strategies, nil
 }
 
 func (StorageService) FindStrategyByName(strategyTestName string) (*model.StrategyFile, error) {

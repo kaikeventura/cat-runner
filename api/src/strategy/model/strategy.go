@@ -1,5 +1,7 @@
 package model
 
 type Strategy struct {
-	Name string
+	Name       string
+	CreatedAt  string
+	ModifiedAt *string
 }
