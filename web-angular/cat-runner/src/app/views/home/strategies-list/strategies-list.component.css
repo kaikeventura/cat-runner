@@ -53,3 +53,15 @@ section {
 .span-strategy-name {
   font-size: 40px;
 }
+
+.left {
+  float: left;
+  font-size: 13px;
+  padding: 2px 10px;
+}
+
+.right {
+  float: right;
+  font-size: 13px;
+  padding: 2px 10px;
+}
