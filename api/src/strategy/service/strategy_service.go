@@ -27,13 +27,33 @@ func (service StrategyService) CreateStrategy(strategy model.Strategy) error {
 	return nil
 }
 
-func (service StrategyService) GetAllStrategies() ([]string, error) {
+func (service StrategyService) GetAllStrategies() ([]model.Strategy, error) {
 	strategies, err := service.storageService.FindAllStrategyTests()
 	if err != nil {
-		return []string{}, err
+		return []model.Strategy{}, err
 	}
 
-	return strategies, nil
+	strategiesResponse := []model.Strategy{}
+
+	for _, strategy := range strategies {
+		var modifiedAt string
+		if strategy.ModifiedAt != nil {
+			modifiedAt = strategy.ModifiedAt.UTC().String()
+		} else {
+			modifiedAt = ""
+		}
+
+		strategiesResponse = append(
+			strategiesResponse,
+			model.Strategy{
+				Name:       strategy.StrategyTestName,
+				CreatedAt:  strategy.CreatedAt.UTC().String(),
+				ModifiedAt: &modifiedAt,
+			},
+		)
+	}
+
+	return strategiesResponse, nil
 }
 
 func (service StrategyService) GetStrategyByName(strategyTestName string) (*storageModel.StrategyFile, error) {
