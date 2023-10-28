@@ -24,3 +24,6 @@ go.work
 .vscode/
 .code-workspace
 .settings.json
+
+# Files
+/src/storage/files/

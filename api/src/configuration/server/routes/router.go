@@ -9,8 +9,20 @@ import (
 
 func RouterConfiguration(router *gin.Engine) *gin.Engine {
 	config := cors.DefaultConfig()
+	config.AllowCredentials = true
 	config.AllowAllOrigins = true
 	config.AllowMethods = []string{"GET", "POST", "PUT", "PATCH", "DELETE"}
+	config.AllowHeaders = []string{
+		"X-CSRF-Token",
+		"X-Requested-With",
+		"Accept", "Accept-Version",
+		"Content-Length",
+		"Content-MD5",
+		"Content-Type",
+		"Date",
+		"X-Api-Version",
+		"Authorization",
+	}
 
 	router.Use(cors.New(config))
 
@@ -18,16 +30,16 @@ func RouterConfiguration(router *gin.Engine) *gin.Engine {
 	{
 		runner := v1.Group("runner")
 		{
-			runner.POST("/http", runnerController.RunHttp)
+			runner.POST("http", runnerController.RunHttp)
 		}
 		strategy := v1.Group("strategy")
 		{
-			strategy.POST("/", strategyController.CreateStrategy)
-			strategy.GET("/", strategyController.GetAllStrategies)
-			strategy.GET("/:strategyName", strategyController.GetStrategyByName)
-			strategy.POST("/:strategyName/http", strategyController.AddHttpRunner)
-			strategy.POST("/:strategyName/env", strategyController.AddEnvironmentVariable)
-			strategy.PUT("/:strategyName/env", strategyController.UpdateEnvironmentVariable)
+			strategy.POST("", strategyController.CreateStrategy)
+			strategy.GET("", strategyController.GetAllStrategies)
+			strategy.GET(":strategyName", strategyController.GetStrategyByName)
+			strategy.POST(":strategyName/http", strategyController.AddHttpRunner)
+			strategy.POST(":strategyName/env", strategyController.AddEnvironmentVariable)
+			strategy.PUT(":strategyName/env", strategyController.UpdateEnvironmentVariable)
 		}
 	}
 
