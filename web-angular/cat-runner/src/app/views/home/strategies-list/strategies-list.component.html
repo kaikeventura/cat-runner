@@ -5,7 +5,9 @@
         fxFlex.lt-md="0 1 calc(50% - 11px)"
         fxFlex.lt-sm="100%">
             <mat-card-header class="mat-card-center-strategy">
-              <mat-card-title><span class="span-strategy-name">{{strategy}}</span></mat-card-title>
+              <mat-card-title>
+                <span class="span-strategy-name">{{strategy.Name}}</span>
+              </mat-card-title>
             </mat-card-header>
             <mat-card-actions class="mat-card-center-strategy">
                 <div class="example-button-container">
@@ -16,6 +18,10 @@
                     </div>
                 </div>
             </mat-card-actions>
+            <mat-card-subtitle>
+              <span class="left">Created at: {{strategy.CreatedAt | localDateTime}}</span>
+              <span class="right">Modified at: {{strategy.ModifiedAt | localDateTime}}</span>
+            </mat-card-subtitle>
           </mat-card>
     </ng-container>
 </div>

@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Strategy } from '../model/strategy.model';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,7 @@ export class StrategyService {
     private httpClient: HttpClient
   ) { }
 
-  public getAllStrategies(): Observable<String[]> {
-    return this.httpClient.get<String[]>(this.apiUrl)
+  public getAllStrategies(): Observable<Strategy[]> {
+    return this.httpClient.get<Strategy[]>(this.apiUrl)
   }
 }

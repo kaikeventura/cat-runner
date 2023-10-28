@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Strategy } from 'src/app/shared/model/strategy.model';
 import { StrategyService } from 'src/app/shared/service/strategy.service';
 
 @Component({
@@ -8,7 +9,7 @@ import { StrategyService } from 'src/app/shared/service/strategy.service';
 })
 export class StrategiesListComponent implements OnInit {
 
-  strategies: String[] = []
+  strategies: Strategy[] = []
 
   constructor(
     public strategyService: StrategyService
@@ -21,7 +22,6 @@ export class StrategiesListComponent implements OnInit {
   getStrategies() {
     this.strategyService.getAllStrategies().subscribe(data => {
       this.strategies = data
-      console.log(this.strategies)
     })
   }
 }
