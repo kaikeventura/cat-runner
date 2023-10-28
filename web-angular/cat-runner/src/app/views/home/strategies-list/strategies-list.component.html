@@ -1,0 +1,21 @@
+<div fxLayout="row" fxLayoutAlign="start center" style="padding: 2%;">
+    <ng-container *ngFor="let strategy of strategies" style="margin: 0.5%;">
+        <mat-card class="mat-card-strategy"
+        fxFlex="1 1 calc(33.3% - 11px)"
+        fxFlex.lt-md="0 1 calc(50% - 11px)"
+        fxFlex.lt-sm="100%">
+            <mat-card-header class="mat-card-center-strategy">
+              <mat-card-title><span class="span-strategy-name">{{strategy}}</span></mat-card-title>
+            </mat-card-header>
+            <mat-card-actions class="mat-card-center-strategy">
+                <div class="example-button-container">
+                    <div class="example-button-container">
+                        <button mat-mini-fab color="warn" aria-label="Example icon button with a filter list icon">
+                          <mat-icon>rocket</mat-icon>
+                        </button>
+                    </div>
+                </div>
+            </mat-card-actions>
+          </mat-card>
+    </ng-container>
+</div>

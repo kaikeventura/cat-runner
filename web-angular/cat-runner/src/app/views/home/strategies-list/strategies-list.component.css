@@ -1,0 +1,55 @@
+section {
+  display: table;
+}
+
+.example-label {
+  display: table-cell;
+  font-size: 14px;
+  margin-left: 8px;
+  min-width: 120px;
+}
+
+.example-button-row {
+  display: table-cell;
+  max-width: 600px;
+}
+
+.example-button-row .mat-mdc-button-base {
+  margin: 8px 8px 8px 0;
+}
+
+.example-flex-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.example-button-container {
+  display: flex;
+  justify-content: center;
+  width: 120px;
+}
+
+.mat-card-strategy {
+  border: 1px solid #CFD8DC; 
+  border-radius: 4px 3px 6px / 2px 4px; 
+  padding-top: 15px; 
+  padding-left: 0%; 
+  padding-right: 0%; 
+  padding-bottom: 0%;
+  margin: 5px;
+}
+
+.mat-card-center-strategy {
+  padding: 10px 15px;
+  margin-bottom: 0;
+  min-height: 70px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.span-strategy-name {
+  font-size: 40px;
+}
