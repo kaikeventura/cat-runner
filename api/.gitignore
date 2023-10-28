@@ -26,4 +26,4 @@ go.work
 .settings.json
 
 # Files
-/src/storage/files/
+/src/storage/files/*.json
