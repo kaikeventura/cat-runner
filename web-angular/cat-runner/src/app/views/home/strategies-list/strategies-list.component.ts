@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Strategy } from 'src/app/shared/model/strategy.model';
+import { Component } from '@angular/core';
+import { StrategyBase } from 'src/app/shared/model/strategy.model';
 import { StrategyService } from 'src/app/shared/service/strategy.service';
 
 @Component({
@@ -7,12 +7,12 @@ import { StrategyService } from 'src/app/shared/service/strategy.service';
   templateUrl: './strategies-list.component.html',
   styleUrls: ['./strategies-list.component.css']
 })
-export class StrategiesListComponent implements OnInit {
+export class StrategiesListComponent {
 
-  strategies: Strategy[] = []
+  strategies: StrategyBase[] = []
 
   constructor(
-    public strategyService: StrategyService
+    private strategyService: StrategyService
   ) { }
 
   ngOnInit() {

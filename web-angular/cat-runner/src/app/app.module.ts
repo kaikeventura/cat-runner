@@ -13,13 +13,17 @@ import { StrategiesListComponent } from './views/home/strategies-list/strategies
 import { HttpClientModule } from '@angular/common/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { LocalDateTimePipe } from './shared/pipe/local-date-time.pipe';
+import { StrategyComponent } from './views/strategy/strategy.component';
+import { NavbarComponent } from './views/navbar/navbar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     StrategiesListComponent,
-    LocalDateTimePipe
+    LocalDateTimePipe,
+    StrategyComponent,
+    NavbarComponent
   ],
   imports: [
     HttpClientModule,
