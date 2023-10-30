@@ -28,7 +28,7 @@ export class StrategyComponent {
   getStrategyByName(strategyName: string) {
     this.strategyService.getStrategyByName(strategyName).subscribe(data => {
       this.strategy = data
-      this.globalService.setGlobalVariable(data)
+      this.globalService.setStrategyGlobal(data)
     })
   }
 }

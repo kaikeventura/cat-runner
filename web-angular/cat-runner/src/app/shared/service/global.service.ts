@@ -1,17 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Strategy } from '../model/strategy.model';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GlobalService {
-  strategyGlobal!: Strategy;
+  private strategyGlobal = new BehaviorSubject<Strategy | null>(null)
 
-  setGlobalVariable(value: any) {
-    this.strategyGlobal = value;
+  setStrategyGlobal(value: Strategy) {
+    this.strategyGlobal.next(value);
   }
 
-  getGlobalVariable() {
-    return this.strategyGlobal;
+  getStrategyGlobal(): Observable<Strategy | null> {
+    return this.strategyGlobal.asObservable();
   }
 }

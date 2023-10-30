@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ViewChild } from "@angular/core";
+import { AfterViewInit, Component, OnInit, ViewChild } from "@angular/core";
 import { StrategyComponent } from "../strategy.component";
 import { HttpRunner, Strategy } from "src/app/shared/model/strategy.model";
 import { GlobalService } from "src/app/shared/service/global.service";
@@ -8,12 +8,18 @@ import { GlobalService } from "src/app/shared/service/global.service";
   templateUrl: './sidenav.component.html',
   styleUrls: ['./sidenav.component.css']
 })
-export class SidenavComponent {
-  strategy!: Strategy
-  httpRunners!: HttpRunner[]
-  
-  constructor(private globalService: GlobalService) {
-    this.strategy = this.globalService.getGlobalVariable()
-    this.httpRunners = this.strategy.HttpRequestRunners
+export class SidenavComponent implements OnInit {
+  strategy: Strategy | null = null
+  httpRunners: HttpRunner[] = []
+
+  constructor(private globalService: GlobalService) {}
+
+  ngOnInit() {
+    this.globalService.getStrategyGlobal().subscribe((strategy) => {
+      if (strategy) {
+        this.strategy = strategy;
+        this.httpRunners = this.strategy.HttpRequestRunners
+      }
+    })
   }
 }
