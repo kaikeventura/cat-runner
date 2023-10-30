@@ -21,3 +21,18 @@
   justify-content: start;
   padding: 5px;
 }
+
+.http-method-span {
+  font-size: 11px;
+  font-weight: bold;
+}
+
+.strategy-name-span {
+  font-size: 11px;
+}
+
+.new-request-button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

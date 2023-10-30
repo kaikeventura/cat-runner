@@ -12,6 +12,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {LayoutModule} from '@angular/cdk/layout';
 import {MatListModule} from '@angular/material/list';
+import {MatTooltipModule} from '@angular/material/tooltip';
 import { StrategiesListComponent } from './views/home/strategies-list/strategies-list.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -21,7 +22,7 @@ import { NavbarComponent } from './views/navbar/navbar.component';
 import { SidenavComponent } from './views/strategy/sidenav/sidenav.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatNativeDateModule } from '@angular/material/core';
-import { MaterialExampleModule } from './material.module';
+import { HttpMethodColorDirective } from './shared/directive/http-method-color.directive';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { MaterialExampleModule } from './material.module';
     LocalDateTimePipe,
     StrategyComponent,
     NavbarComponent,
-    SidenavComponent
+    SidenavComponent,
+    HttpMethodColorDirective
   ],
   imports: [
     HttpClientModule,
@@ -49,7 +51,7 @@ import { MaterialExampleModule } from './material.module';
     FormsModule,
     MatNativeDateModule,
     ReactiveFormsModule,
-    MaterialExampleModule
+    MatTooltipModule
   ],
   providers: [
     LocalDateTimePipe
