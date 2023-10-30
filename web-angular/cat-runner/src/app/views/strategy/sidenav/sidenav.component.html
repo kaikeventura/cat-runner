@@ -1,0 +1,27 @@
+<mat-drawer-container class="example-container" autosize>
+    <mat-drawer #drawer class="example-sidenav" mode="side">
+        <ng-container *ngFor="let requests of httpRunners">
+        <p>
+            <button mat-stroked-button>
+                <span [appHttpMethodColor]="requests.Http.HttpMethod" class="http-method-span">{{requests.Http.HttpMethod}}</span>
+                <span class="strategy-name-span"> {{requests.RequestName}}</span>
+            </button>
+        </p>
+        </ng-container>
+        <div class="new-request-button-container">
+            <button mat-icon-button matTooltip="Add New Request" matTooltipPosition="below" color="primary" aria-label="Example mini fab with a heart icon">
+                <mat-icon>add_circle_outline</mat-icon>
+            </button>
+        </div>
+    </mat-drawer>
+
+    <div class="sidenav-content-button">
+        <button mat-mini-fab matTooltip="My Requests" matTooltipPosition="left" color="primary" aria-label="Example mini fab with a heart icon" (click)="drawer.toggle()">
+            <mat-icon>toc</mat-icon>
+        </button>
+    </div>
+    <div class="example-sidenav-content">
+    
+    </div>
+
+</mat-drawer-container>
