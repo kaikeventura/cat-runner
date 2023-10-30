@@ -13,6 +13,7 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import {LayoutModule} from '@angular/cdk/layout';
 import {MatListModule} from '@angular/material/list';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatTabsModule} from '@angular/material/tabs';
 import { StrategiesListComponent } from './views/home/strategies-list/strategies-list.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -23,6 +24,7 @@ import { SidenavComponent } from './views/strategy/sidenav/sidenav.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatNativeDateModule } from '@angular/material/core';
 import { HttpMethodColorDirective } from './shared/directive/http-method-color.directive';
+import { RequesterComponent } from './views/strategy/requester/requester.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +35,8 @@ import { HttpMethodColorDirective } from './shared/directive/http-method-color.d
     StrategyComponent,
     NavbarComponent,
     SidenavComponent,
-    HttpMethodColorDirective
+    HttpMethodColorDirective,
+    RequesterComponent
   ],
   imports: [
     HttpClientModule,
@@ -51,7 +54,8 @@ import { HttpMethodColorDirective } from './shared/directive/http-method-color.d
     FormsModule,
     MatNativeDateModule,
     ReactiveFormsModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatTabsModule
   ],
   providers: [
     LocalDateTimePipe
