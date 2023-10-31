@@ -14,6 +14,9 @@ import {LayoutModule} from '@angular/cdk/layout';
 import {MatListModule} from '@angular/material/list';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatTabsModule} from '@angular/material/tabs';
+import {MatGridListModule} from '@angular/material/grid-list';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatTableModule} from '@angular/material/table';
 import { StrategiesListComponent } from './views/home/strategies-list/strategies-list.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -25,6 +28,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatNativeDateModule } from '@angular/material/core';
 import { HttpMethodColorDirective } from './shared/directive/http-method-color.directive';
 import { RequesterComponent } from './views/strategy/requester/requester.component';
+import { HttpFormComponent } from './views/strategy/requester/http-form/http-form.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +40,8 @@ import { RequesterComponent } from './views/strategy/requester/requester.compone
     NavbarComponent,
     SidenavComponent,
     HttpMethodColorDirective,
-    RequesterComponent
+    RequesterComponent,
+    HttpFormComponent
   ],
   imports: [
     HttpClientModule,
@@ -55,7 +60,10 @@ import { RequesterComponent } from './views/strategy/requester/requester.compone
     MatNativeDateModule,
     ReactiveFormsModule,
     MatTooltipModule,
-    MatTabsModule
+    MatTabsModule,
+    MatGridListModule,
+    MatSlideToggleModule,
+    MatTableModule
   ],
   providers: [
     LocalDateTimePipe

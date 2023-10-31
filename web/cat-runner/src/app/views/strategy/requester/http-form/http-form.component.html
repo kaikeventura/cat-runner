@@ -1,0 +1,57 @@
+<mat-grid-list cols="6" rowHeight="60px">
+    <mat-grid-tile *ngFor="let tile of tiles" [colspan]="tile.cols" [rowspan]="tile.rows"
+        [style.background]="tile.color">
+        {{tile.text}}
+    </mat-grid-tile>
+</mat-grid-list>
+<mat-grid-list cols="1" rowHeight="30:1">
+    <mat-grid-tile>
+        <mat-slide-toggle color="primary" [(ngModel)]="queryParamsToggle">Query Parameters</mat-slide-toggle>
+    </mat-grid-tile>
+</mat-grid-list>
+
+<mat-grid-list *ngIf="queryParamsToggle" cols="1" rowHeight="2:1">
+    <section class="example-container mat-elevation-z8" tabindex="0">
+        <table mat-table [dataSource]="queryParamsDataSource">
+    
+          <ng-container matColumnDef="key">
+            <th mat-header-cell *matHeaderCellDef> Key </th>
+            <td mat-cell *matCellDef="let element"> {{element.key}} </td>
+          </ng-container>
+      
+          <ng-container matColumnDef="value">
+            <th mat-header-cell *matHeaderCellDef> Value </th>
+            <td mat-cell *matCellDef="let element"> {{element.value}} </td>
+          </ng-container>
+      
+          <tr mat-header-row *matHeaderRowDef="queryParamDisplayedColumns; sticky: true"></tr>
+          <tr mat-row *matRowDef="let row; columns: queryParamDisplayedColumns;"></tr>
+        </table>
+      </section>
+</mat-grid-list>
+
+<mat-grid-list cols="1" rowHeight="30:1">
+    <mat-grid-tile>
+        <mat-slide-toggle color="primary" [(ngModel)]="headerParamsToggle">Header Parameters</mat-slide-toggle>
+    </mat-grid-tile>
+</mat-grid-list>
+
+<mat-grid-list *ngIf="headerParamsToggle" cols="1" rowHeight="2:1">
+    <section class="example-container mat-elevation-z8" tabindex="0">
+        <table mat-table [dataSource]="headerParamsDataSource">
+    
+          <ng-container matColumnDef="key">
+            <th mat-header-cell *matHeaderCellDef> Key </th>
+            <td mat-cell *matCellDef="let element"> {{element.key}} </td>
+          </ng-container>
+      
+          <ng-container matColumnDef="value">
+            <th mat-header-cell *matHeaderCellDef> Value </th>
+            <td mat-cell *matCellDef="let element"> {{element.value}} </td>
+          </ng-container>
+      
+          <tr mat-header-row *matHeaderRowDef="headerParamDisplayedColumns; sticky: true"></tr>
+          <tr mat-row *matRowDef="let row; columns: headerParamDisplayedColumns;"></tr>
+        </table>
+      </section>
+</mat-grid-list>
