@@ -4,13 +4,13 @@
       
       <mat-form-field *ngIf="tile.inputType != null" class="example-full-width">
         <mat-label>{{tile.text}}</mat-label>
-        <input matInput [type]="tile.inputType">
+        <input matInput [type]="tile.inputType" [placeholder]="tile.placeholder ? tile.placeholder : ''">
       </mat-form-field>
 
       <mat-form-field *ngIf="tile.select != null" appearance="fill">
         <mat-label>{{tile.text}}</mat-label>
-        <mat-select *ngFor="let value of tile.select.value">
-          <mat-option [value]="value">{{value}}</mat-option>
+        <mat-select>
+          <mat-option *ngFor="let value of tile.select.value" [value]="value">{{value}}</mat-option>
         </mat-select>
       </mat-form-field>
       

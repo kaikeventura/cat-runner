@@ -4,6 +4,7 @@ export interface Tile {
   cols: number;
   rows: number;
   text: string;
+  placeholder?: string;
   inputType?: string,
   select?: Select
 }
@@ -19,11 +20,11 @@ export interface Select {
 })
 export class HttpFormComponent {
   tiles: Tile[] = [
-    {text: 'Hostname', cols: 5, rows: 1, inputType: "text"},
-    {text: 'Port', cols: 1, rows: 1, inputType: "number"},
-    {text: 'Http Method', cols: 1, rows: 1, inputType: "text"},
-    {text: 'Path', cols: 3, rows: 1, inputType: "text"},
-    {text: 'Timeout', cols: 1, rows: 1, inputType: "number"},
+    {text: 'Hostname', cols: 5, rows: 1, placeholder: "hostname.api | 192.0.0.1", inputType: "text"},
+    {text: 'Port', cols: 1, rows: 1, placeholder: "8090", inputType: "number"},
+    {text: 'Http Method', cols: 1, rows: 1, select: {value: ["GET", "POST", "PUT", "PATCH", "DELETE"]}},
+    {text: 'Path', cols: 3, rows: 1, placeholder: "/foo", inputType: "text"},
+    {text: 'Timeout', cols: 1, rows: 1, placeholder: "5000", inputType: "number"},
     {text: 'Protocol', cols: 1, rows: 1, select: {value: ["HTTP", "HTTPS"]}}
   ];
 
