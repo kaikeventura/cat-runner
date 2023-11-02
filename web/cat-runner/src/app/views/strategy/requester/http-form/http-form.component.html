@@ -7,11 +7,10 @@
         <input matInput [type]="tile.inputType">
       </mat-form-field>
 
-      <mat-form-field appearance="fill">
-        <mat-label>Select</mat-label>
-        <mat-select>
-          <mat-option value="one">First option</mat-option>
-          <mat-option value="two">Second option</mat-option>
+      <mat-form-field *ngIf="tile.select != null" appearance="fill">
+        <mat-label>{{tile.text}}</mat-label>
+        <mat-select *ngFor="let value of tile.select.value">
+          <mat-option [value]="value">{{value}}</mat-option>
         </mat-select>
       </mat-form-field>
       

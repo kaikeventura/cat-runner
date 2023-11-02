@@ -4,7 +4,12 @@ export interface Tile {
   cols: number;
   rows: number;
   text: string;
-  inputType?: string
+  inputType?: string,
+  select?: Select
+}
+
+export interface Select {
+  value: string[]
 }
 
 @Component({
@@ -16,10 +21,10 @@ export class HttpFormComponent {
   tiles: Tile[] = [
     {text: 'Hostname', cols: 5, rows: 1, inputType: "text"},
     {text: 'Port', cols: 1, rows: 1, inputType: "number"},
-    {text: 'Protocol', cols: 1, rows: 1, inputType: "text"},
     {text: 'Http Method', cols: 1, rows: 1, inputType: "text"},
     {text: 'Path', cols: 3, rows: 1, inputType: "text"},
-    {text: 'Timeout', cols: 1, rows: 1, inputType: "number"}
+    {text: 'Timeout', cols: 1, rows: 1, inputType: "number"},
+    {text: 'Protocol', cols: 1, rows: 1, select: {value: ["HTTP", "HTTPS"]}}
   ];
 
   queryParamsToggle = false;
