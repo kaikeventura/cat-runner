@@ -13,6 +13,13 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import {LayoutModule} from '@angular/cdk/layout';
 import {MatListModule} from '@angular/material/list';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatTabsModule} from '@angular/material/tabs';
+import {MatGridListModule} from '@angular/material/grid-list';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatTableModule} from '@angular/material/table';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import {MatSelectModule} from '@angular/material/select';
 import { StrategiesListComponent } from './views/home/strategies-list/strategies-list.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -23,6 +30,8 @@ import { SidenavComponent } from './views/strategy/sidenav/sidenav.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatNativeDateModule } from '@angular/material/core';
 import { HttpMethodColorDirective } from './shared/directive/http-method-color.directive';
+import { RequesterComponent } from './views/strategy/requester/requester.component';
+import { HttpFormComponent } from './views/strategy/requester/http-form/http-form.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +42,9 @@ import { HttpMethodColorDirective } from './shared/directive/http-method-color.d
     StrategyComponent,
     NavbarComponent,
     SidenavComponent,
-    HttpMethodColorDirective
+    HttpMethodColorDirective,
+    RequesterComponent,
+    HttpFormComponent
   ],
   imports: [
     HttpClientModule,
@@ -51,7 +62,14 @@ import { HttpMethodColorDirective } from './shared/directive/http-method-color.d
     FormsModule,
     MatNativeDateModule,
     ReactiveFormsModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatTabsModule,
+    MatGridListModule,
+    MatSlideToggleModule,
+    MatTableModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule
   ],
   providers: [
     LocalDateTimePipe

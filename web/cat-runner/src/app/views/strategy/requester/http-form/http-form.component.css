@@ -1,0 +1,25 @@
+.example-container {
+    height: 400px;
+    overflow: auto;
+    width: 100%;
+}
+
+table {
+    width: 100%;
+}
+
+.center-container {
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+    margin: 0 auto;
+    padding: 0.5%;
+}
+
+.example-form {
+    width: 100%;
+}
+
+.example-full-width {
+    width: 100%;
+}
