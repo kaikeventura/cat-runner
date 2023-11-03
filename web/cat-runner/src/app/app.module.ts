@@ -20,6 +20,7 @@ import {MatTableModule} from '@angular/material/table';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
+import {MatDialogModule} from '@angular/material/dialog';
 import { StrategiesListComponent } from './views/home/strategies-list/strategies-list.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -32,6 +33,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { HttpMethodColorDirective } from './shared/directive/http-method-color.directive';
 import { RequesterComponent } from './views/strategy/requester/requester.component';
 import { HttpFormComponent } from './views/strategy/requester/http-form/http-form.component';
+import { KeyValueDialogComponent } from './views/strategy/requester/http-form/key-value-dialog/key-value-dialog.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +46,8 @@ import { HttpFormComponent } from './views/strategy/requester/http-form/http-for
     SidenavComponent,
     HttpMethodColorDirective,
     RequesterComponent,
-    HttpFormComponent
+    HttpFormComponent,
+    KeyValueDialogComponent
   ],
   imports: [
     HttpClientModule,
@@ -69,7 +72,8 @@ import { HttpFormComponent } from './views/strategy/requester/http-form/http-for
     MatTableModule,
     MatFormFieldModule,
     MatInputModule,
-    MatSelectModule
+    MatSelectModule,
+    MatDialogModule
   ],
   providers: [
     LocalDateTimePipe

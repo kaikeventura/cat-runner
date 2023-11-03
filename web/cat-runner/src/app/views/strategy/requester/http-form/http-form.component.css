@@ -23,3 +23,9 @@ table {
 .example-full-width {
     width: 100%;
 }
+
+.new-query-param-button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

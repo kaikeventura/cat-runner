@@ -1,4 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { KeyValueDialogComponent } from './key-value-dialog/key-value-dialog.component';
+import { MatTable } from '@angular/material/table';
 
 export interface Tile {
   cols: number;
@@ -19,6 +22,10 @@ export interface Select {
   styleUrls: ['./http-form.component.css']
 })
 export class HttpFormComponent {
+  constructor(public dialog: MatDialog) {}
+
+  @ViewChild(MatTable) table!: MatTable<KeyValue>;
+  
   tiles: Tile[] = [
     {text: 'Hostname', cols: 5, rows: 1, placeholder: "hostname.api | 192.0.0.1", inputType: "text"},
     {text: 'Port', cols: 1, rows: 1, placeholder: "8090", inputType: "number"},
@@ -33,10 +40,27 @@ export class HttpFormComponent {
   requestBodyToggle = false;
 
   queryParamDisplayedColumns = ['key', 'value'];
-  queryParamsDataSource = QUERY_PARAMS;
+  queryParamsDataSource = [...QUERY_PARAMS];
 
   headerParamDisplayedColumns = ['key', 'value'];
   headerParamsDataSource = HEADER_PARAMS;
+  
+  openQueryParamDialog() {
+    const dialogRef = this.dialog.open(KeyValueDialogComponent, {
+      data: {
+        key: "Add Query Param"
+      }
+    });
+
+    dialogRef.componentInstance?.addKeyValue.subscribe((values: any) => {
+      this.addQueryParam(values.key, values.value);
+    });
+  }
+
+  private addQueryParam(key: string, value: string) {
+    this.queryParamsDataSource.push({key: key, value: value})
+    this.table.renderRows();
+  }
 }
 
 export interface KeyValue {
@@ -45,16 +69,6 @@ export interface KeyValue {
 }
 
 const QUERY_PARAMS: KeyValue[] = [
-  {key: 'Hydrogen', value: '1.0079'},
-  {key: 'Helium', value: '4.0026'},
-  {key: 'Lithium', value: '6.941'},
-  {key: 'Beryllium', value: '9.0122'},
-  {key: 'Boron', value: '10.811'},
-  {key: 'Carbon', value: '12.0107'},
-  {key: 'Nitrogen', value: '14.0067'},
-  {key: 'Oxygen', value: '15.9994'},
-  {key: 'Fluorine', value: '18.9984'},
-  {key: 'Neon', value: '20.1797'},
 ];
 
 const HEADER_PARAMS: KeyValue[] = [

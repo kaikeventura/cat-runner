@@ -41,8 +41,13 @@
       <tr mat-row *matRowDef="let row; columns: queryParamDisplayedColumns;"></tr>
     </table>
   </section>
-</mat-grid-list>
 
+  <div class="new-query-param-button-container">
+    <button (click)="openQueryParamDialog()" mat-icon-button matTooltip="Add Query Param" matTooltipPosition="below" color="primary" aria-label="Example mini fab with a heart icon">
+        <mat-icon>add_circle_outline</mat-icon>
+    </button>
+  </div>
+</mat-grid-list>
 <mat-grid-list cols="1" rowHeight="30:1">
   <mat-grid-tile>
     <mat-slide-toggle color="primary" [(ngModel)]="headerParamsToggle">Header Parameters</mat-slide-toggle>
