@@ -1,17 +1,7 @@
-import { Component, ViewChild } from '@angular/core';
-
-export interface Tile {
-  cols: number;
-  rows: number;
-  text: string;
-  placeholder?: string;
-  inputType?: string,
-  select?: Select
-}
-
-export interface Select {
-  value: string[]
-}
+import { Component, QueryList, ViewChildren } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { KeyValueDialogComponent } from './key-value-dialog/key-value-dialog.component';
+import { MatTable } from '@angular/material/table';
 
 @Component({
   selector: 'app-http-form',
@@ -19,6 +9,8 @@ export interface Select {
   styleUrls: ['./http-form.component.css']
 })
 export class HttpFormComponent {
+  constructor(private dialog: MatDialog) {}
+  
   tiles: Tile[] = [
     {text: 'Hostname', cols: 5, rows: 1, placeholder: "hostname.api | 192.0.0.1", inputType: "text"},
     {text: 'Port', cols: 1, rows: 1, placeholder: "8090", inputType: "number"},
@@ -32,11 +24,56 @@ export class HttpFormComponent {
   headerParamsToggle = false;
   requestBodyToggle = false;
 
+  @ViewChildren(MatTable) private tables!: QueryList<MatTable<KeyValue>>;
+
+  private queryParams: KeyValue[] = [];
+  private headerParams: KeyValue[] = [];
+
   queryParamDisplayedColumns = ['key', 'value'];
-  queryParamsDataSource = QUERY_PARAMS;
+  queryParamsDataSource = [...this.queryParams];
 
   headerParamDisplayedColumns = ['key', 'value'];
-  headerParamsDataSource = HEADER_PARAMS;
+  headerParamsDataSource = [...this.headerParams];
+  
+  openQueryParamDialog() {
+    const dialogRef = this.dialog.open(KeyValueDialogComponent, {
+      data: {
+        key: "Add Query Param"
+      }
+    });
+
+    dialogRef.componentInstance?.addKeyValue.subscribe((values: any) => {
+      this.addQueryParam(values.key, values.value);
+    });
+  }
+
+  openHeaderParamDialog() {
+    const dialogRef = this.dialog.open(KeyValueDialogComponent, {
+      data: {
+        key: "Add Header Param"
+      }
+    });
+
+    dialogRef.componentInstance?.addKeyValue.subscribe((values: any) => {
+      this.addHeaderParam(values.key, values.value);
+    });
+  }
+
+  private addQueryParam(key: string, value: string) {
+    this.queryParamsDataSource.push({key: key, value: value})
+    this.renderTables();
+  }
+
+  private addHeaderParam(key: string, value: string) {
+    this.headerParamsDataSource.push({key: key, value: value})
+    this.renderTables();
+  }
+
+  private renderTables() {
+    this.tables.forEach((table) => {
+      table.renderRows();
+    });
+  }
 }
 
 export interface KeyValue {
@@ -44,34 +81,15 @@ export interface KeyValue {
   value: string;
 }
 
-const QUERY_PARAMS: KeyValue[] = [
-  {key: 'Hydrogen', value: '1.0079'},
-  {key: 'Helium', value: '4.0026'},
-  {key: 'Lithium', value: '6.941'},
-  {key: 'Beryllium', value: '9.0122'},
-  {key: 'Boron', value: '10.811'},
-  {key: 'Carbon', value: '12.0107'},
-  {key: 'Nitrogen', value: '14.0067'},
-  {key: 'Oxygen', value: '15.9994'},
-  {key: 'Fluorine', value: '18.9984'},
-  {key: 'Neon', value: '20.1797'},
-];
+export interface Tile {
+  cols: number;
+  rows: number;
+  text: string;
+  placeholder?: string;
+  inputType?: string,
+  select?: Select
+}
 
-const HEADER_PARAMS: KeyValue[] = [
-  {key: 'Hydrogen', value: '1.0079'},
-  {key: 'Helium', value: '4.0026'},
-  {key: 'Lithium', value: '6.941'},
-  {key: 'Beryllium', value: '9.0122'},
-  {key: 'Boron', value: '10.811'},
-  {key: 'Carbon', value: '12.0107'},
-  {key: 'Nitrogen', value: '14.0067'},
-  {key: 'Oxygen', value: '15.9994'},
-  {key: 'Fluorine', value: '18.9984'},
-  {key: 'Neon', value: '20.1797'},
-];
-
-@Component({
-  selector: 'app-input-text',
-  template: '<input type="text" placeholder="Enter text">'
-})
-export class InputTextComponent {}
+export interface Select {
+  value: string[]
+}

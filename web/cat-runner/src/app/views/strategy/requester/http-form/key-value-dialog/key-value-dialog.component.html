@@ -1,0 +1,17 @@
+<h1 mat-dialog-title>{{data.key}}</h1>
+<div mat-dialog-content>
+  <mat-form-field>
+    <mat-label>Key</mat-label>
+    <input matInput placeholder="apiKey" [(ngModel)]="key">
+  </mat-form-field>
+  <br>
+  <mat-form-field>
+    <mat-label>Value</mat-label>
+    <input matInput placeholder="123" [(ngModel)]="value">
+  </mat-form-field>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button mat-dialog-close cdkFocusInitial (click)="addNewKeyValue(key, value)">Add</button>
+</div>
