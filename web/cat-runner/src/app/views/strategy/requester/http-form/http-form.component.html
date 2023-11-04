@@ -1,101 +1,110 @@
 <div class="center-container">
-  <mat-grid-list cols="6" rowHeight="60px">
-    <mat-grid-tile *ngFor="let tile of tiles" [colspan]="tile.cols" [rowspan]="tile.rows">
+  <form (ngSubmit)="onSubmit()">
+    <mat-grid-list cols="6" rowHeight="60px">
+      <mat-grid-tile *ngFor="let tile of tiles" [colspan]="tile.cols" [rowspan]="tile.rows">
 
-      <mat-form-field *ngIf="tile.inputType != null" class="example-full-width">
-        <mat-label>{{tile.text}}</mat-label>
-        <input matInput [type]="tile.inputType" [placeholder]="tile.placeholder ? tile.placeholder : ''">
-      </mat-form-field>
-
-      <mat-form-field *ngIf="tile.select != null" appearance="fill">
-        <mat-label>{{tile.text}}</mat-label>
-        <mat-select>
-          <mat-option *ngFor="let value of tile.select.value" [value]="value">{{value}}</mat-option>
-        </mat-select>
-      </mat-form-field>
-
-    </mat-grid-tile>
-  </mat-grid-list>
-
-  <mat-grid-list cols="1" rowHeight="30:1">
-    <mat-grid-tile>
-      <mat-slide-toggle color="primary" [(ngModel)]="queryParamsToggle">Query Parameters</mat-slide-toggle>
-    </mat-grid-tile>
-  </mat-grid-list>
-
-  <mat-grid-list *ngIf="queryParamsToggle" cols="1" rowHeight="2:1">
-    <section class="example-container mat-elevation-z8" tabindex="0">
-      <table mat-table [dataSource]="queryParamsDataSource">
-
-        <ng-container matColumnDef="key">
-          <th mat-header-cell *matHeaderCellDef> Key </th>
-          <td mat-cell *matCellDef="let element"> {{element.key}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="value">
-          <th mat-header-cell *matHeaderCellDef> Value </th>
-          <td mat-cell *matCellDef="let element"> {{element.value}} </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="queryParamDisplayedColumns; sticky: true"></tr>
-        <tr mat-row *matRowDef="let row; columns: queryParamDisplayedColumns;"></tr>
-      </table>
-    </section>
-
-    <div class="new-param-button-container">
-      <button (click)="openQueryParamDialog()" mat-icon-button matTooltip="Add Query Param" matTooltipPosition="below"
-        color="primary" aria-label="Example mini fab with a heart icon">
-        <mat-icon>add_circle_outline</mat-icon>
-      </button>
-    </div>
-  </mat-grid-list>
-  <mat-grid-list cols="1" rowHeight="30:1">
-    <mat-grid-tile>
-      <mat-slide-toggle color="primary" [(ngModel)]="headerParamsToggle">Header Parameters</mat-slide-toggle>
-    </mat-grid-tile>
-  </mat-grid-list>
-
-  <mat-grid-list *ngIf="headerParamsToggle" cols="1" rowHeight="2:1">
-    <section class="example-container mat-elevation-z8" tabindex="0">
-      <table mat-table [dataSource]="headerParamsDataSource">
-
-        <ng-container matColumnDef="key">
-          <th mat-header-cell *matHeaderCellDef> Key </th>
-          <td mat-cell *matCellDef="let element"> {{element.key}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="value">
-          <th mat-header-cell *matHeaderCellDef> Value </th>
-          <td mat-cell *matCellDef="let element"> {{element.value}} </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="headerParamDisplayedColumns; sticky: true"></tr>
-        <tr mat-row *matRowDef="let row; columns: headerParamDisplayedColumns;"></tr>
-      </table>
-    </section>
-
-    <div class="new-param-button-container">
-      <button (click)="openHeaderParamDialog()" mat-icon-button matTooltip="Add Header Param" matTooltipPosition="below"
-        color="primary" aria-label="Example mini fab with a heart icon">
-        <mat-icon>add_circle_outline</mat-icon>
-      </button>
-    </div>
-  </mat-grid-list>
-
-  <mat-grid-list cols="1" rowHeight="30:1">
-    <mat-grid-tile>
-      <mat-slide-toggle color="primary" [(ngModel)]="requestBodyToggle">Request Body</mat-slide-toggle>
-    </mat-grid-tile>
-  </mat-grid-list>
-
-  <mat-grid-list *ngIf="requestBodyToggle" cols="1" rowHeight="2:1">
-    <section class="example-container mat-elevation-z8" tabindex="0">
-      <form class="example-form">
-        <mat-form-field class="example-full-width" style="width: 100%">
-          <mat-label>Json request body</mat-label>
-          <textarea matInput placeholder='{ "success": "ok" }'></textarea>
+        <mat-form-field *ngIf="tile.inputType != null" class="example-full-width">
+          <mat-label>{{tile.text}}</mat-label>
+          <input matInput [type]="tile.inputType" [placeholder]="tile.placeholder ? tile.placeholder : ''" [(ngModel)]="formData[tile.text]" name="{{tile.text}}">
         </mat-form-field>
-      </form>
-    </section>
-  </mat-grid-list>
+
+        <mat-form-field *ngIf="tile.select != null" appearance="fill">
+          <mat-label>{{tile.text}}</mat-label>
+          <mat-select [(ngModel)]="formData[tile.text]" name="{{tile.text}}">
+            <mat-option *ngFor="let value of tile.select.value" [value]="value">{{value}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+      </mat-grid-tile>
+    </mat-grid-list>
+
+    <mat-grid-list cols="1" rowHeight="30:1">
+      <mat-grid-tile>
+        <mat-slide-toggle color="primary" [(ngModel)]="queryParamsToggle" name="{{queryParamsToggle}}">Query Parameters</mat-slide-toggle >
+      </mat-grid-tile>
+    </mat-grid-list>
+
+    <mat-grid-list *ngIf="queryParamsToggle" cols="1" rowHeight="2:1">
+      <section class="example-container mat-elevation-z8" tabindex="0">
+        <table mat-table [dataSource]="queryParamsDataSource">
+
+          <ng-container matColumnDef="key">
+            <th mat-header-cell *matHeaderCellDef> Key </th>
+            <td mat-cell *matCellDef="let element"> {{element.key}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="value">
+            <th mat-header-cell *matHeaderCellDef> Value </th>
+            <td mat-cell *matCellDef="let element"> {{element.value}} </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="queryParamDisplayedColumns; sticky: true"></tr>
+          <tr mat-row *matRowDef="let row; columns: queryParamDisplayedColumns;"></tr>
+        </table>
+      </section>
+
+      <div class="new-param-button-container">
+        <button type="button" (click)="openQueryParamDialog()" mat-icon-button matTooltip="Add Query Param" matTooltipPosition="below"
+          color="primary" aria-label="Example mini fab with a heart icon">
+          <mat-icon>add_circle_outline</mat-icon>
+        </button>
+      </div>
+    </mat-grid-list>
+    <mat-grid-list cols="1" rowHeight="30:1">
+      <mat-grid-tile>
+        <mat-slide-toggle color="primary" [(ngModel)]="headerParamsToggle" name="{{headerParamsToggle}}">Header Parameters</mat-slide-toggle>
+      </mat-grid-tile>
+    </mat-grid-list>
+
+    <mat-grid-list *ngIf="headerParamsToggle" cols="1" rowHeight="2:1">
+      <section class="example-container mat-elevation-z8" tabindex="0">
+        <table mat-table [dataSource]="headerParamsDataSource">
+
+          <ng-container matColumnDef="key">
+            <th mat-header-cell *matHeaderCellDef> Key </th>
+            <td mat-cell *matCellDef="let element"> {{element.key}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="value">
+            <th mat-header-cell *matHeaderCellDef> Value </th>
+            <td mat-cell *matCellDef="let element"> {{element.value}} </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="headerParamDisplayedColumns; sticky: true"></tr>
+          <tr mat-row *matRowDef="let row; columns: headerParamDisplayedColumns;"></tr>
+        </table>
+      </section>
+
+      <div class="new-param-button-container">
+        <button type="button" (click)="openHeaderParamDialog()" mat-icon-button matTooltip="Add Header Param"
+          matTooltipPosition="below" color="primary" aria-label="Example mini fab with a heart icon">
+          <mat-icon>add_circle_outline</mat-icon>
+        </button>
+      </div>
+    </mat-grid-list>
+
+    <mat-grid-list cols="1" rowHeight="30:1">
+      <mat-grid-tile>
+        <mat-slide-toggle color="primary" [(ngModel)]="requestBodyToggle" name="{{requestBodyToggle}}">Request Body</mat-slide-toggle>
+      </mat-grid-tile>
+    </mat-grid-list>
+
+    <mat-grid-list *ngIf="requestBodyToggle" cols="1" rowHeight="2:1">
+      <section class="example-container mat-elevation-z8" tabindex="0">
+        <form class="example-form">
+          <mat-form-field class="example-full-width" style="width: 100%">
+            <mat-label>Json request body</mat-label>
+            <textarea matInput placeholder='{ "success": "ok" }' [(ngModel)]="formData.requestBody" name="requestBody"></textarea>
+          </mat-form-field>
+        </form>
+      </section>
+    </mat-grid-list>
+
+    <div class="form-action-button">
+      <button type="submit" mat-fab extended color="primary">
+        <mat-icon>save</mat-icon>
+        Save
+      </button>
+    </div>
+  </form>
 </div>

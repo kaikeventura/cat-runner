@@ -74,6 +74,15 @@ export class HttpFormComponent {
       table.renderRows();
     });
   }
+
+  formData: any = {
+  };
+  
+  onSubmit() {
+    console.log('Formulário enviado com sucesso', this.formData);
+    console.log('Query Params', this.queryParamsDataSource);
+    console.log('Header Params', this.headerParamsDataSource);
+  }
 }
 
 export interface KeyValue {
