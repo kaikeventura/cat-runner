@@ -29,3 +29,15 @@ table {
     justify-content: center;
     align-items: center;
 }
+
+.form-action-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 8px;
+    padding: 2%;
+}
+
+.mat-form-field {
+    margin-right: 12px;
+}
