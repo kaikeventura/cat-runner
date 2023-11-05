@@ -1,6 +1,6 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, catchError, map, throwError } from 'rxjs';
 import { HttpRunner, Strategy, StrategyBase } from '../model/strategy.model';
 
 @Injectable({
@@ -28,6 +28,14 @@ export class StrategyService {
   }
 
   public createHttpRunner(strategyName: string, httpRunner: HttpRunner): Observable<Strategy> {
-    return this.httpClient.post<any>(`${this.apiHostV1}/strategy/${strategyName}/http`, httpRunner, this.httpOptions)
+    return this.httpClient.post<HttpResponse<any>>(`${this.apiHostV1}/strategy/${strategyName}/http`, httpRunner, this.httpOptions).pipe(
+      map((response: HttpResponse<any>) => {
+        return response.body as Strategy;
+      }),
+      catchError((error) => {
+        console.error('Error while trying to create an http request: ', error);
+        return throwError(error);
+      })
+    );
   }
 }

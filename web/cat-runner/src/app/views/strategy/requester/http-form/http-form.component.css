@@ -37,3 +37,7 @@ table {
     margin-right: 8px;
     padding: 2%;
 }
+
+.mat-form-field {
+    margin-right: 12px;
+}

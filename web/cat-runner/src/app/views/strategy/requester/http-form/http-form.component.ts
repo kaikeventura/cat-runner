@@ -5,6 +5,7 @@ import { MatTable } from '@angular/material/table';
 import { StrategyService } from 'src/app/shared/service/strategy.service';
 import { HttpRunner } from 'src/app/shared/model/strategy.model';
 import { ActivatedRoute } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-http-form',
@@ -15,7 +16,8 @@ export class HttpFormComponent {
   constructor(
     private dialog: MatDialog, 
     private strategyService: StrategyService, 
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private _snackBar: MatSnackBar
   ) {}
 
   private currentStrategyName!: string
@@ -119,8 +121,16 @@ export class HttpFormComponent {
       }
     }
 
-    this.strategyService.createHttpRunner(this.currentStrategyName, httpRunner).subscribe(result => {});
-    window.location.reload();
+    this.strategyService.createHttpRunner(this.currentStrategyName, httpRunner).subscribe(
+      success => {
+        window.location.reload();
+      },
+      error => {
+        this.openSnackBar(`Error: ${error.error.error}`, "Close")
+      }
+    );
+
+    this.openSnackBar("Success", "Close")
   }
 
   private buildKeyValue(source: KeyValue[]) {
@@ -128,6 +138,10 @@ export class HttpFormComponent {
       Key: keyValue.key,
       Value: keyValue.value
     }))
+  }
+
+  private openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action);
   }
 }
 
