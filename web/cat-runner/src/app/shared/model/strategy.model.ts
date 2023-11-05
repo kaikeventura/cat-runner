@@ -24,7 +24,7 @@ export interface Http {
     Timeout: number;
     Headers: KVParam[];
     Parameters: KVParam[];
-    Body: Body;
+    Body?: Body;
 }
   
 export interface KVParam {

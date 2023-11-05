@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { KeyValueDialogComponent } from './key-value-dialog/key-value-dialog.component';
 import { MatTable } from '@angular/material/table';
 import { StrategyService } from 'src/app/shared/service/strategy.service';
-import { HttpRunner, Strategy } from 'src/app/shared/model/strategy.model';
+import { HttpRunner } from 'src/app/shared/model/strategy.model';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -29,7 +29,7 @@ export class HttpFormComponent {
   tiles: Tile[] = [
     {text: 'Hostname', cols: 5, rows: 1, placeholder: "hostname.api | 192.0.0.1", inputType: "text"},
     {text: 'Port', cols: 1, rows: 1, placeholder: "8090", inputType: "number"},
-    {text: 'Http Method', cols: 1, rows: 1, select: {value: ["GET", "POST", "PUT", "PATCH", "DELETE"]}},
+    {text: 'Method', cols: 1, rows: 1, select: {value: ["GET", "POST", "PUT", "PATCH", "DELETE"]}},
     {text: 'Path', cols: 3, rows: 1, placeholder: "/foo", inputType: "text"},
     {text: 'Timeout', cols: 1, rows: 1, placeholder: "5000", inputType: "number"},
     {text: 'Protocol', cols: 1, rows: 1, select: {value: ["HTTP", "HTTPS"]}}
@@ -92,16 +92,18 @@ export class HttpFormComponent {
 
   formData: any = {};
   
-  onSubmit() {
-    console.log('Formulário enviado com sucesso', this.formData);
-    console.log('Query Params', this.queryParamsDataSource);
-    console.log('Header Params', this.headerParamsDataSource);
-    console.log(this.currentStrategyName);
-
+  onSubmitHttpRequest() {
     const httpRunner: HttpRunner = {
-      RequestName: "Http Request",
+      RequestName: "Http Request 90",
       Http: {
-
+        Protocol: this.formData.Protocol,
+        Host: this.formData.Hostname,
+        Port: this.formData.Port != "" ? parseInt(this.formData.Port) : 0,
+        Path: this.formData.Path,
+        HttpMethod: this.formData.Method,
+        Timeout: this.formData.Timeout != "" ? parseInt(this.formData.Timeout) : 0,
+        Headers: this.buildKeyValue(this.headerParamsDataSource),
+        Parameters: this.buildKeyValue(this.queryParamsDataSource)
       },
       VirtualUser: {
         UsersAmount: 1,
@@ -110,8 +112,22 @@ export class HttpFormComponent {
       }
     }
 
-    // this.strategyService.createHttpRunner(this.currentStrategyName, ?).subscribe(result => {});
+    if (this.formData.requestBody != "") {
+      httpRunner.Http.Body = {
+        BodyFormat: "JSON",
+        ContentText: this.formData.requestBody
+      }
+    }
+
+    this.strategyService.createHttpRunner(this.currentStrategyName, httpRunner).subscribe(result => {});
     window.location.reload();
+  }
+
+  private buildKeyValue(source: KeyValue[]) {
+    return source.length == 0 ? [] : source.map((keyValue) => ({
+      Key: keyValue.key,
+      Value: keyValue.value
+    }))
   }
 }
 
