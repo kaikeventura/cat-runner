@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Strategy, StrategyBase } from '../model/strategy.model';
+import { HttpRunner, Strategy, StrategyBase } from '../model/strategy.model';
 
 @Injectable({
   providedIn: 'root'
@@ -25,5 +25,9 @@ export class StrategyService {
 
   public getStrategyByName(strategyName: string): Observable<Strategy> {
     return this.httpClient.get<Strategy>(`${this.apiHostV1}/strategy/${strategyName}`)
+  }
+
+  public createHttpRunner(strategyName: string, httpRunner: HttpRunner): Observable<Strategy> {
+    return this.httpClient.post<any>(`${this.apiHostV1}/strategy/${strategyName}/http`, httpRunner, this.httpOptions)
   }
 }
