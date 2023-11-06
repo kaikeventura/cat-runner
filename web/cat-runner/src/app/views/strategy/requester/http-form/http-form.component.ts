@@ -6,6 +6,7 @@ import { StrategyService } from 'src/app/shared/service/strategy.service';
 import { HttpRunner } from 'src/app/shared/model/strategy.model';
 import { ActivatedRoute } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-http-form',
@@ -17,10 +18,13 @@ export class HttpFormComponent {
     private dialog: MatDialog, 
     private strategyService: StrategyService, 
     private route: ActivatedRoute,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private formBuilder: FormBuilder,
   ) {}
 
   private currentStrategyName!: string
+
+  form!: FormGroup
 
   ngOnInit() {
     this.route.params.subscribe(params => {
@@ -29,12 +33,13 @@ export class HttpFormComponent {
   }
   
   tiles: Tile[] = [
-    {text: 'Hostname', cols: 5, rows: 1, placeholder: "hostname.api | 192.0.0.1", inputType: "text"},
-    {text: 'Port', cols: 1, rows: 1, placeholder: "8090", inputType: "number"},
-    {text: 'Method', cols: 1, rows: 1, select: {value: ["GET", "POST", "PUT", "PATCH", "DELETE"]}},
-    {text: 'Path', cols: 3, rows: 1, placeholder: "/foo", inputType: "text"},
-    {text: 'Timeout', cols: 1, rows: 1, placeholder: "5000", inputType: "number"},
-    {text: 'Protocol', cols: 1, rows: 1, select: {value: ["HTTP", "HTTPS"]}}
+    {text: 'Description', cols: 2, rows: 1, required: true, placeholder: "Create new resource", inputType: "text"},
+    {text: 'Hostname', cols: 3, rows: 1, required: true, placeholder: "hostname.api | 192.0.0.1", inputType: "text"},
+    {text: 'Port', cols: 1, rows: 1, placeholder: "8090", required: false, inputType: "number"},
+    {text: 'Method', cols: 1, rows: 1, required: true, select: {value: ["GET", "POST", "PUT", "PATCH", "DELETE"]}},
+    {text: 'Path', cols: 3, rows: 1, required: false, placeholder: "/foo", inputType: "text"},
+    {text: 'Timeout', cols: 1, rows: 1, required: false, placeholder: "5000", inputType: "number"},
+    {text: 'Protocol', cols: 1, rows: 1, required: true, select: {value: ["HTTP", "HTTPS"]}}
   ];
 
   queryParamsToggle = false;
@@ -96,7 +101,7 @@ export class HttpFormComponent {
   
   onSubmitHttpRequest() {
     const httpRunner: HttpRunner = {
-      RequestName: "Http Request 90",
+      RequestName: this.formData.Description,
       Http: {
         Protocol: this.formData.Protocol,
         Host: this.formData.Hostname,
@@ -154,6 +159,7 @@ export interface Tile {
   cols: number;
   rows: number;
   text: string;
+  required: boolean;
   placeholder?: string;
   inputType?: string,
   select?: Select
