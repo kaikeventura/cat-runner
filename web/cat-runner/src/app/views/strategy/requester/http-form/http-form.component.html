@@ -1,16 +1,16 @@
 <div class="center-container">
-  <form (ngSubmit)="onSubmitHttpRequest()">
+  <form #form="ngForm" (ngSubmit)="onSubmitHttpRequest()">
     <mat-grid-list cols="6" rowHeight="60px">
       <mat-grid-tile *ngFor="let tile of tiles" [colspan]="tile.cols" [rowspan]="tile.rows">
 
         <mat-form-field *ngIf="tile.inputType != null" class="example-full-width">
           <mat-label>{{tile.text}}</mat-label>
-          <input matInput [type]="tile.inputType" [placeholder]="tile.placeholder ? tile.placeholder : ''" [(ngModel)]="formData[tile.text]" name="{{tile.text}}">
+          <input matInput [type]="tile.inputType" [placeholder]="tile.placeholder ? tile.placeholder : ''" [(ngModel)]="formData[tile.text]" name="{{tile.text}}" [required]="tile.required">
         </mat-form-field>
 
         <mat-form-field *ngIf="tile.select != null" appearance="fill">
           <mat-label>{{tile.text}}</mat-label>
-          <mat-select [(ngModel)]="formData[tile.text]" name="{{tile.text}}">
+          <mat-select [(ngModel)]="formData[tile.text]" name="{{tile.text}}" [required]="tile.required">
             <mat-option *ngFor="let value of tile.select.value" [value]="value">{{value}}</mat-option>
           </mat-select>
         </mat-form-field>
@@ -101,7 +101,7 @@
     </mat-grid-list>
 
     <div class="form-action-button">
-      <button type="submit" mat-fab extended color="primary">
+      <button type="submit" mat-fab extended color="primary" [disabled]="!form.valid">
         <mat-icon>save</mat-icon>
         Save
       </button>
