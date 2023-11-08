@@ -1,0 +1,214 @@
+{
+	"info": {
+		"_postman_id": "3265a672-1570-45d1-92a3-93b6bd985b00",
+		"name": "cat-runner",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Run http test",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "a",
+						"value": "application/vnd.api+json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"http\": {\n        \"protocol\": \"HTTP\",\n        \"host\": \"localhost\",\n        \"port\": 8081,\n        \"path\": \"foo\",\n        \"httpMethod\": \"POST\",\n        \"timeout\": 30000,\n        \"headers\": [\n            {\n                \"key\": \"apiKey\",\n                \"value\": \"321\"\n            },\n            {\n                \"key\": \"apiChei\",\n                \"value\": \"321\"\n            },\n            {\n                \"key\": \"apiBey\",\n                \"value\": \"321\"\n            }\n        ],\n        \"parameters\": [\n            {\n                \"key\": \"apiKey\",\n                \"value\": \"321\"\n            },\n            {\n                \"key\": \"apiKey\",\n                \"value\": \"321\"\n            }\n        ],\n        \"body\": {\n            \"bodyFormat\": \"JSON\",\n            \"contentText\": \"{ \\\"id\\\": 1, \\\"user_id\\\": 1, \\\"reference_month\\\": \\\"2023-10\\\", \\\"state\\\": \\\"CURRENT\\\" }\"\n        },\"a\": \"{ \\\"success\\\": \\\"ok\\\" }\"\n    },\n    \"virtualUser\": {\n        \"usersAmount\": 1000,\n        \"interactionsAmount\": 500,\n        \"interactionDelay\": 10\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/v1/runner/http",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"runner",
+						"http"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All strategies",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/v1/strategy",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"strategy"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get strategy by name",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/v1/strategy/ms-card",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"strategy",
+						"ms-card"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "New Strategy",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"My Teste\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/v1/strategy",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"strategy"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add http request",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"requestName\": \"Request\",\n    \"http\": {\n        \"protocol\": \"HTTP\",\n        \"host\": \"chatobot.hml\",\n        \"port\": 0,\n        \"path\": \"/biometriaV2\",\n        \"httpMethod\": \"DELETE\",\n        \"timeout\": 30000,\n        \"headers\": [\n            {\n                \"key\": \"apiKey\",\n                \"value\": \"321\"\n            },\n            {\n                \"key\": \"apiChei\",\n                \"value\": \"321\"\n            },\n            {\n                \"key\": \"apiBey\",\n                \"value\": \"321\"\n            }\n        ],\n        \"parameters\": [\n            {\n                \"key\": \"apiKey\",\n                \"value\": \"321\"\n            },\n            {\n                \"key\": \"apiKey\",\n                \"value\": \"321\"\n            }\n        ],\n        \"body\": {\n            \"bodyFormat\": \"JSON\",\n            \"contentText\": \"{ \\\"id\\\": 1, \\\"user_id\\\": 1, \\\"reference_month\\\": \\\"2023-10\\\", \\\"state\\\": \\\"CURRENT\\\" }\"\n        }\n    },\n    \"virtualUser\": {\n        \"usersAmount\": 15000,\n        \"interactionsAmount\": 1,\n        \"interactionDelay\": 0\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/v1/strategy/:name/http",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"strategy",
+						":name",
+						"http"
+					],
+					"variable": [
+						{
+							"key": "name",
+							"value": "ms-donis"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add env",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"\",\n    \"value\": \"\",\n    \"dataType\": \"String\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/v1/strategy/My Teste/env",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"strategy",
+						"My Teste",
+						"env"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update env",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"\",\n    \"value\": \"\",\n    \"dataType\": \"String\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/v1/strategy/My Teste/env",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"strategy",
+						"My Teste",
+						"env"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
